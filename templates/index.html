@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compost App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>I LOVE THE ENVIRONMENT!!!</h1>
+
+    <form action="/analyze" method="POST">
+        <div>
+            <label for="grocinput">Grocery List:</label><br>
+
+            <textarea id="grocinput" name="grocinputbox" required rows="8" cols="40" style="resize: none;" placeholder="Enter your grocery items here...&#10;[e.g., 2 apples, 6 large bananas]"></textarea>
+            <br>
+            <label for="grocinput">OR, upload a list (.txt)  </label>
+            <input type="file" id="file-uploadgroc" name="uploaded_groceries">
+        </div><br>
+
+        <div>
+            <label for="browninput">(OPTIONAL) Available Browns:</label><br>
+
+            <textarea id="browninput" name="browninputbox" rows="8" cols="40" style="resize: none;" placeholder="Enter your available brown items here...&#10;[e.g., 2 coffee grounds, 6 eggshells]"></textarea>
+            <br>
+            <label for="browninput">OR, upload a list (.txt)  </label>
+            <input type="file" id="file-uploadbrown" name="uploaded_browns">
+        </div><br>
+
+        <button type="submit" accept=".txt">Generate Plan</button>
+    </form>
+
+    <script>
+        const GrocfileInput = document.getElementById('file-uploadgroc');
+        const BrownfileInput = document.getElementById('file-uploadbrown');
+        const GrocoutputBox = document.getElementById('grocinput');
+        const BrownoutputBox = document.getElementById('browninput');
+
+        function handleFileInput(fileInput, outputBox) {
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0]; // Get the selected file
+
+                const fileName = file.name;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                if (file && fileExtension === 'txt') {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        outputBox.value = e.target.result;
+                        fileInput.value = '';
+                    };
+
+                    reader.readAsText(file);
+                } else {
+                    alert('Error: Only plain text (.txt) files are allowed.');
+                    fileInput.value = '';
+                    return;
+                }
+            });
+        }
+
+        handleFileInput(GrocfileInput, GrocoutputBox);
+        handleFileInput(BrownfileInput, BrownoutputBox);
+    </script>
+
+</body>
+</html>

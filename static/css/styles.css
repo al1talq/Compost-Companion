@@ -1,0 +1,60 @@
+/* 1. Global Reset & Box Model */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+/* 2. Base Page Styles */
+body {
+  font-family: Arial, sans-serif; /* Clean font stack */
+  line-height: 1.6; /* Improves readability */
+  background-color: #f4f4f9; /* Light grey background */
+  color: #333333; /* Dark grey text (better than pure black) */
+  padding: 20px;
+}
+
+/* 3. Layout Container */
+.container {
+  max-width: 800px; /* Limits website width on large monitors */
+  margin: 0 auto; /* Centers the container horizontally */
+  background: #ffffff; /* White background for content */
+  padding: 30px;
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+/* 4. Typography */
+h1, h2, h3 {
+  margin-bottom: 15px;
+  color: #111111;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* 5. Links */
+a {
+  color: #0066cc;
+  text-decoration: none; /* Removes underline */
+}
+
+a:hover {
+  text-decoration: underline; /* Shows underline on hover */
+}
+
+/* 6. Simple Buttons */
+.btn {
+  display: inline-block;
+  background-color: #0066cc;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0052a3;
+}

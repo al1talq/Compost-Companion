@@ -1,2 +1,2 @@
-# Hairbor
-Connect local salons with organizations to help combat methane accumulation in the hair due to hair waste and use the hair to clean up the oil in our oceans
+# Compost Companion
+Start your composting journey strong with an assistant that can help turn your grocery list into a composting plan

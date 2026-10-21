@@ -31,6 +31,11 @@
         <button type="submit" accept=".txt">Generate Plan</button>
     </form>
 
+    <!-- the <a href> in the next line is a temporary button I have to link the user to the results page for debugging's sake, will not exist in final prod. -->
+    <a href="{{ url_for('results') }}">See Results (DEBUGGING PURPOSES)</a>
+
+    <p id="loading-state" role="status" hidden>Generating your compost plan. This may take a moment...</p>
+
     <script>
         const GrocfileInput = document.getElementById('file-uploadgroc');
         const BrownfileInput = document.getElementById('file-uploadbrown');
@@ -63,6 +68,24 @@
 
         handleFileInput(GrocfileInput, GrocoutputBox);
         handleFileInput(BrownfileInput, BrownoutputBox);
+
+        const groceryStorageKey = 'compost.groceries';
+        const brownStorageKey = 'compost.browns';
+        GrocoutputBox.value = sessionStorage.getItem(groceryStorageKey) || '';
+        BrownoutputBox.value = sessionStorage.getItem(brownStorageKey) || '';
+
+        const form = document.querySelector('form');
+        const loadingState = document.getElementById('loading-state');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Will require you to define /analyze in app.py so the form can have time to load
+        form.addEventListener('submit', () => {
+            sessionStorage.setItem(groceryStorageKey, GrocoutputBox.value);
+            sessionStorage.setItem(brownStorageKey, BrownoutputBox.value);
+            loadingState.hidden = false;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Generating...';
+        });
     </script>
 
 </body>

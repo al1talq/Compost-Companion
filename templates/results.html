@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compost App Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Results</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Grocery Item</th>
+                <th>Usable Scraps</th>
+                <th>Status</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Requires you to have defined an items list on the backend
+             Also, kinda unclear on how status/reason/preparation_note are defined, 
+             so I just used the names you had in your example. Adjust as needed.
+             Not even sure if preparation note was meant to be here in this table
+              -->
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.usable_scraps }}</td>
+                <td>{{ item.status}}, {{ item.reason }}</td>
+                <td>{{ item.preparation_note }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br>
+
+    <div>   
+        <h3 id="Items_Summ_Label" >items summary label</h3>
+        <!-- 
+            Wasn't sure if the "Items_Estim_text" was supposed to literally say
+            "Estimated Usable Scraps" or if it was supposed to be represented by
+            "scrap_description" from items[]. I'm like 50% sure "scrap_description"
+            was meant to be used instead of "Usable_Scraps"      
+        -->
+        <p id="Items_Estim_Text" >{{ scrap_description }}</p>
+        <h4 id="Estimated_Amt_Label" >{{ items.estimated_cups_min }}-{{ items.estimated_cups_max }} Cups</h4>
+        <p id="Items_Assumpt_Text" >{{ items.assumption }}</p>
+
+        <!-- Relies on the fact that GPT excludes the unknowns from the calculation -->
+        {% if has_unknown_amounts == true %}
+            <p id="Unknown_Amt_Disclaimer" class="Subnote">Partial estimate: Some items have unknown scrap amounts and are excluded from the total.</p>
+        {% endif %}
+
+    </div><br><br>
+
+    <div>  
+        <h3 id="YourMix_Label" >Your Compost Mix</h3>
+
+        <div>
+            <p id="Greens_Estim_Label" >Estimated Greens</p>
+            <h4 id="Estimated_Amt_LabelG" >{{ summary.estimated_greens_min }}-{{ summary.estimated_greens_max }} Cups</h4>
+            <p id="Scraps_LabelG" >Food Scraps</p>
+        </div><br>
+
+        <div>
+            <p id="Browns_Estim_Label" >Additional Browns</p>
+            <h4 id="Estimated_Amt_LabelB" >{{ summary.additional_browns_min }}-{{ summary.additional_browns_max }} Cups</h4>
+            <p id="Scraps_LabelB" >Dry Leaves or Suitable Cardboard</p>
+        </div>
+    </div><br><br>
+
+    <div>
+        <h3 id="Steps_Label" >Your Composting Steps</h3>`
+        <ol>
+            <!-- wasnt sure if .title was necessary, added just incase -->
+            {% for step in plansteps %}
+                <li>{{ step.title }}
+                    <p> {{ step.description }}</p>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div>
+        <h3 id="Expect_Label" >🌱 What to Expect</h3>
+        <!-- 
+        Not sure if readiness_note is meant to be under summary or not, 
+         remove "summary." if readiness is an independent argument 
+         from summary's list of values -->
+        <p id="Readiness_Text"> {{ summary.readiness_note }}</p>
+        <p id="Guidance_Warning" class = "Subnote">General guidance, not a guaranteed completion date.</p>
+    </div><br><br>
+
+    <a id="return-edit-button" href="{{ url_for('home') }}">Return to List</a><br>
+    <a id="return-restart-button" href="{{ url_for('home') }}">Start Over</a>
+
+
+    <script>
+        document.getElementById('return-restart-button').addEventListener('click', () => {
+            sessionStorage.removeItem('compost.groceries');
+            sessionStorage.removeItem('compost.browns');
+        });
+    </script>
+
+</body>
+</html>

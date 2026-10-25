@@ -44,8 +44,8 @@
             was meant to be used instead of "Usable_Scraps"      
         -->
         <p id="Items_Estim_Text" >{{ scrap_description }}</p>
-        <h4 id="Estimated_Amt_Label" >{{ items.estimated_cups_min }}-{{ items.estimated_cups_max }} Cups</h4>
-        <p id="Items_Assumpt_Text" >{{ items.assumption }}</p>
+        <h4 id="Estimated_Amt_Label" >{{ scrap_estimate.estimated_cups_min }}-{{ scrap_estimate.estimated_cups_max }} Cups</h4>
+        <p id="Items_Assumpt_Text" >{{ scrap_estimate.assumption }}</p>
 
         <!-- Relies on the fact that GPT excludes the unknowns from the calculation -->
         {% if has_unknown_amounts == true %}

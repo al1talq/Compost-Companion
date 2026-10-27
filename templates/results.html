@@ -4,102 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compost App Results</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Results</h1>
+    <svg class="background-rake" viewBox="-32 -24 176 344" aria-hidden="true" focusable="false">
+        <g transform="rotate(-20 60 267)">
+            <path d="M62 5 60 267" stroke="#4b321f" stroke-width="14" stroke-linecap="round"/>
+            <path d="M62 5 60 264" stroke="#966a3e" stroke-width="8" stroke-linecap="round"/>
+            <path d="M48 260h24v12H48z" fill="#7b8582" stroke="#3d4542" stroke-width="2"/>
+            <path d="M14 267Q60 260 106 267" stroke="#3d4542" stroke-width="10" stroke-linecap="round"/>
+            <path d="m18 267-4 43m24-45-2 46m24-45v45m24-45 2 45m24-44 4 43" stroke="#3d4542" stroke-width="6" stroke-linecap="round"/>
+        </g>
+    </svg>
+    <svg class="background-sapling" viewBox="0 0 120 160" aria-hidden="true" focusable="false">
+        <path d="M60 155C58 132 62 112 58 91C56 78 60 64 66 50" fill="none" stroke="#674326" stroke-width="8" stroke-linecap="round"/>
+        <path d="M59 111C46 102 39 92 33 79M60 91C74 83 82 73 87 61" fill="none" stroke="#674326" stroke-width="5" stroke-linecap="round"/>
+        <path d="M66 51C68 36 80 28 93 32C91 46 81 54 66 51Z" fill="#71a94b" stroke="#35632b" stroke-width="2" transform="translate(-3 0) rotate(-15 79 41)"/>
+        <path d="M34 79C22 77 17 67 20 57C31 58 38 67 34 79Z" fill="#71a94b" stroke="#35632b" stroke-width="2"/>
+        <path d="M87 61C88 49 98 43 109 46C107 57 98 64 87 61Z" fill="#4f8d3d" stroke="#35632b" stroke-width="2"/>
+    </svg>
+    <h1 class="title"><span class="title-Results">Results</span></h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Grocery Item</th>
-                <th>Usable Scraps</th>
-                <th>Status</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Requires you to have defined an items list on the backend
-             Also, kinda unclear on how status/reason/preparation_note are defined, 
-             so I just used the names you had in your example. Adjust as needed.
-             Not even sure if preparation note was meant to be here in this table
-              -->
-            {% for item in items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.usable_scraps }}</td>
-                <td>{{ item.status}}, {{ item.reason }}</td>
-                <td>{{ item.preparation_note }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table><br><br>
+    <div class="results-table-wrap">
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th scope="col">Grocery Item</th>
+                    <th scope="col">Usable Scraps</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.usable_scraps }}</td>
+                    <td>{{ item.status }}, {{ item.reason }}</td>
+                    <td>{{ item.preparation_note }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <div>   
-        <h3 id="Items_Summ_Label" >items summary label</h3>
-        <!-- 
-            Wasn't sure if the "Items_Estim_text" was supposed to literally say
-            "Estimated Usable Scraps" or if it was supposed to be represented by
-            "scrap_description" from items[]. I'm like 50% sure "scrap_description"
-            was meant to be used instead of "Usable_Scraps"      
-        -->
-        <p id="Items_Estim_Text" >{{ scrap_description }}</p>
-        <h4 id="Estimated_Amt_Label" >{{ scrap_estimate.estimated_cups_min }}-{{ scrap_estimate.estimated_cups_max }} Cups</h4>
-        <p id="Items_Assumpt_Text" >{{ scrap_estimate.assumption }}</p>
+    <div class="item_summary-wrap">
+        <h3 id="Items_Summ_Label">items summary label</h3>
+        <h4 id="Estimated_Amt_Label">{{ scrap_estimate.estimated_cups_min }}-{{ scrap_estimate.estimated_cups_max }} Cups</h4>
+        <p id="Items_Estim_Text">{{ scrap_description }}</p>
+        <p id="Items_Assumpt_Text">{{ scrap_estimate.assumption }}</p>
 
-        <!-- Relies on the fact that GPT excludes the unknowns from the calculation -->
         {% if has_unknown_amounts == true %}
             <p id="Unknown_Amt_Disclaimer" class="Subnote">Partial estimate: Some items have unknown scrap amounts and are excluded from the total.</p>
         {% endif %}
 
     </div><br><br>
 
-    <div>  
-        <h3 id="YourMix_Label" >Your Compost Mix</h3>
+    <section class="compost-mix-wrap" aria-labelledby="YourMix_Label">
+        <h3 id="YourMix_Label" class="compost-mix-title">Your Compost Mix</h3>
 
-        <div>
-            <p id="Greens_Estim_Label" >Estimated Greens</p>
-            <h4 id="Estimated_Amt_LabelG" >{{ summary.estimated_greens_min }}-{{ summary.estimated_greens_max }} Cups</h4>
-            <p id="Scraps_LabelG" >Food Scraps</p>
-        </div><br>
+        <div class="compost-mix-grid">
+            <div class="compost-mix-category">
+                <p id="Greens_Estim_Label">
+                    <span>Estimated Greens</span>
+                </p>
+                <h4 id="Estimated_Amt_LabelG">{{ summary.estimated_greens_min }}-{{ summary.estimated_greens_max }} Cups</h4>
+                <p id="Scraps_LabelG">Food Scraps</p>
+                <svg class="compost-mix-icon compost-mix-icon-greens compost-mix-icon-corner" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M27.5 4.5C17 4.3 8.1 7 6 14.1c-1.4 4.8 2 8.5 6.2 8.3C20.6 22 25.8 14.4 27.5 4.5Z" fill="currentColor"/>
+                    <path d="M5 27c4.3-7.1 9.1-11.9 17.4-17.9M12.1 21.4l-.4-6.1m5-1.1 5.4.4" fill="none" stroke="#f4ffec" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                </svg>
+            </div>
 
-        <div>
-            <p id="Browns_Estim_Label" >Additional Browns</p>
-            <h4 id="Estimated_Amt_LabelB" >{{ summary.additional_browns_min }}-{{ summary.additional_browns_max }} Cups</h4>
-            <p id="Scraps_LabelB" >Dry Leaves or Suitable Cardboard</p>
+            <div class="compost-mix-category">
+                <p id="Browns_Estim_Label">
+                    <span>Additional Browns</span>
+                </p>
+                <h4 id="Estimated_Amt_LabelB">{{ summary.additional_browns_min }}-{{ summary.additional_browns_max }} Cups</h4>
+                <p id="Scraps_LabelB">Dry Leaves or Suitable Cardboard</p>
+                <svg class="compost-mix-icon compost-mix-icon-corner compost-mix-icon-browns" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M4 9.5 16 4l12 5.5v15L16 30 4 24.5z" fill="currentColor"/>
+                    <path d="m4.5 9.5 11.5 5.3 11.5-5.3M16 15v14M10 6.8l12 5.5v5" fill="none" stroke="#fff5e3" stroke-linejoin="round" stroke-width="1.5"/>
+                </svg>
+            </div>
         </div>
-    </div><br><br>
+    </section>
 
-    <div>
-        <h3 id="Steps_Label" >Your Composting Steps</h3>`
-        <ol>
-            <!-- wasnt sure if .title was necessary, added just incase -->
+    <section class="steps-wrap" aria-labelledby="Steps_Label">
+        <h3 id="Steps_Label" class="compost-steps-title">Your Composting Steps</h3>
+        <div class="steps-grid">
             {% for step in plansteps %}
-                <li>{{ step.title }}
-                    <p> {{ step.description }}</p>
-                </li>
+                <article class="step-card">
+                    <span class="step-number">{{ loop.index }}</span>
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.description }}</p>
+                </article>
             {% endfor %}
-        </ol>
+        </div>
+    </section>
+
+    <section class="expect-wrap" aria-labelledby="Expect_Label">
+        <h3 id="Expect_Label">🌱 What to Expect</h3>
+        <p id="Readiness_Text">{{ summary.readiness_note }}</p>
+        <p id="Guidance_Warning" class="Subnote">General guidance, not a guaranteed completion date.</p>
+    </section>
+
+    <div class="results-actions">
+        <form action="{{ url_for('home') }}" method="get">
+            <button id="return-edit-button" class="results-action-button" type="submit">Return to List</button>
+        </form>
+        <form id="start-over-form" action="{{ url_for('home') }}" method="get">
+            <button id="return-restart-button" class="results-action-button" type="submit">Start Over</button>
+        </form>
     </div>
-
-    <div>
-        <h3 id="Expect_Label" >🌱 What to Expect</h3>
-        <!-- 
-        Not sure if readiness_note is meant to be under summary or not, 
-         remove "summary." if readiness is an independent argument 
-         from summary's list of values -->
-        <p id="Readiness_Text"> {{ summary.readiness_note }}</p>
-        <p id="Guidance_Warning" class = "Subnote">General guidance, not a guaranteed completion date.</p>
-    </div><br><br>
-
-    <a id="return-edit-button" href="{{ url_for('home') }}">Return to List</a><br>
-    <a id="return-restart-button" href="{{ url_for('home') }}">Start Over</a>
 
 
     <script>
-        document.getElementById('return-restart-button').addEventListener('click', () => {
-            sessionStorage.removeItem('compost.groceries');
-            sessionStorage.removeItem('compost.browns');
+        document.getElementById("start-over-form").addEventListener("submit", () => {
+            sessionStorage.removeItem("compost.groceries");
+            sessionStorage.removeItem("compost.browns");
         });
     </script>
 

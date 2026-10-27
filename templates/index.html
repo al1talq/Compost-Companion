@@ -7,64 +7,103 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>I LOVE THE ENVIRONMENT!!!</h1>
+    <svg class="background-rake" viewBox="-32 -24 176 344" aria-hidden="true" focusable="false">
+        <g transform="rotate(-20 60 267)">
+            <path d="M62 5 60 267" stroke="#4b321f" stroke-width="14" stroke-linecap="round"/>
+            <path d="M62 5 60 264" stroke="#966a3e" stroke-width="8" stroke-linecap="round"/>
+            <path d="M48 260h24v12H48z" fill="#7b8582" stroke="#3d4542" stroke-width="2"/>
+            <path d="M14 267Q60 260 106 267" stroke="#3d4542" stroke-width="10" stroke-linecap="round"/>
+            <path d="m18 267-4 43m24-45-2 46m24-45v45m24-45 2 45m24-44 4 43" stroke="#3d4542" stroke-width="6" stroke-linecap="round"/>
+        </g>
+    </svg>
+    <svg class="background-sapling" viewBox="0 0 120 160" aria-hidden="true" focusable="false">
+        <path d="M60 155C58 132 62 112 58 91C56 78 60 64 66 50" fill="none" stroke="#674326" stroke-width="8" stroke-linecap="round"/>
+        <path d="M59 111C46 102 39 92 33 79M60 91C74 83 82 73 87 61" fill="none" stroke="#674326" stroke-width="5" stroke-linecap="round"/>
+        <path d="M66 51C68 36 80 28 93 32C91 46 81 54 66 51Z" fill="#71a94b" stroke="#35632b" stroke-width="2" transform="translate(-3 0) rotate(-15 79 41)"/>
+        <path d="M34 79C22 77 17 67 20 57C31 58 38 67 34 79Z" fill="#71a94b" stroke="#35632b" stroke-width="2"/>
+        <path d="M87 61C88 49 98 43 109 46C107 57 98 64 87 61Z" fill="#4f8d3d" stroke="#35632b" stroke-width="2"/>
+    </svg>
+    <h1 class="title">
+        <span class="title-Compost">Compost</span>
+        <span class="title-Companion">Companion</span>
+    </h1>
 
     {% if error %}
-        <p role="alert">{{ error }}</p>
+        <p class="form-error" role="alert">{{ error }}</p>
     {% endif %}
 
-    <form action="/analyze" method="POST">
-        <div>
-            <label for="grocinput">Grocery List:</label><br>
-
-            <textarea id="grocinput" name="grocinputbox" required rows="8" cols="40" style="resize: none;" placeholder="Enter your grocery items here...&#10;[e.g., 2 apples, 6 large bananas]"></textarea>
-            <br>
-            <label for="grocinput">OR, upload a list (.txt)  </label>
-            <input type="file" id="file-uploadgroc" name="uploaded_groceries">
-        </div><br>
+    <form action="/analyze" method="POST" class="grocery-form">
 
         <div>
-            <label for="browninput">(OPTIONAL) Available Browns:</label><br>
+            <label class="list-label-greens" for="grocinput">Grocery List:</label><br>
 
-            <textarea id="browninput" name="browninputbox" rows="8" cols="40" style="resize: none;" placeholder="Enter your available brown items here...&#10;[e.g., 2 coffee grounds, 6 eggshells]"></textarea>
+            <div class="text-input-wrap">
+                <textarea id="grocinput" class="list-input-greens" name="grocinputbox" required rows="7" cols="40" placeholder="Enter your grocery items here...&#10;[e.g., 2 apples, 6 large bananas]"></textarea>
+                <svg class="input-leaf input-leaf-greens" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M27.5 4.5C17 4.3 8.1 7 6 14.1c-1.4 4.8 2 8.5 6.2 8.3C20.6 22 25.8 14.4 27.5 4.5Z" fill="currentColor"/>
+                    <path d="M5 28c4.3-7.4 9.1-12.2 17.4-18.2M12.1 21.4l-.4-6.1m5-1.1 5.4.4" fill="none" stroke="#f7fff8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                </svg>
+            </div>
             <br>
-            <label for="browninput">OR, upload a list (.txt)  </label>
-            <input type="file" id="file-uploadbrown" name="uploaded_browns">
-        </div><br>
 
-        <button type="submit" accept=".txt">Generate Plan</button>
+            <div class="upload-row">
+                <span class="list-label-upload">OR, upload a list (.txt)</span>
+                <input class="file-input-hidden" type="file" id="file-uploadgroc" name="uploaded_groceries" accept=".txt,text/plain">
+                <label class="browse-button" for="file-uploadgroc">Browse</label>
+            </div>
+        </div>
+
+        <div>
+            <label class="list-label-browns" for="browninput">(OPTIONAL) Available Browns:</label><br>
+
+            <div class="text-input-wrap">
+                <textarea id="browninput" class="list-input-browns" name="browninputbox" rows="7" cols="40" placeholder="Enter your available brown items here...&#10;[e.g., 2 coffee grounds, 6 eggshells]"></textarea>
+                <svg class="input-leaf input-leaf-browns" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M4 9.5 16 4l12 5.5v15L16 30 4 24.5z" fill="currentColor"/>
+                    <path d="m4.5 9.5 11.5 5.3 11.5-5.3M16 15v14M10 6.8l12 5.5v5" fill="none" stroke="#fff2e4" stroke-linejoin="round" stroke-width="1.5"/>
+                </svg>
+            </div>
+            <br>
+
+            <div class="upload-row">
+                <span class="list-label-upload">OR, upload a list (.txt)</span>
+                <input class="file-input-hidden" type="file" id="file-uploadbrown" name="uploaded_browns" accept=".txt,text/plain">
+                <label class="browse-button" for="file-uploadbrown">Browse</label>
+            </div>
+        </div>
+        <button type="submit" class="generate-plan-button">Generate Plan</button>
+        <p id="loading-state" role="status" hidden>Generating your compost plan. This may take a moment...</p>
     </form>
 
-    <!-- the <a href> in the next line is a temporary button I have to link the user to the results page for debugging's sake, will not exist in final prod. -->
-    <a href="{{ url_for('results') }}">See Results (DEBUGGING PURPOSES)</a>
-
-    <p id="loading-state" role="status" hidden>Generating your compost plan. This may take a moment...</p>
-
     <script>
-        const GrocfileInput = document.getElementById('file-uploadgroc');
-        const BrownfileInput = document.getElementById('file-uploadbrown');
-        const GrocoutputBox = document.getElementById('grocinput');
-        const BrownoutputBox = document.getElementById('browninput');
+        const GrocfileInput = document.getElementById("file-uploadgroc");
+        const BrownfileInput = document.getElementById("file-uploadbrown");
+        const GrocoutputBox = document.getElementById("grocinput");
+        const BrownoutputBox = document.getElementById("browninput");
 
         function handleFileInput(fileInput, outputBox) {
-            fileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0]; // Get the selected file
+            fileInput.addEventListener("change", function(event) {
+                const file = event.target.files[0];
+
+                if (!file) {
+                    return;
+                }
 
                 const fileName = file.name;
-                const fileExtension = fileName.split('.').pop().toLowerCase();
+                const fileExtension = fileName.split(".").pop().toLowerCase();
 
-                if (file && fileExtension === 'txt') {
+                if (fileExtension === "txt") {
                     const reader = new FileReader();
 
                     reader.onload = function(e) {
                         outputBox.value = e.target.result;
-                        fileInput.value = '';
+                        fileInput.value = "";
                     };
 
                     reader.readAsText(file);
                 } else {
-                    alert('Error: Only plain text (.txt) files are allowed.');
-                    fileInput.value = '';
+                    alert("Error: Only plain text (.txt) files are allowed.");
+                    fileInput.value = "";
                     return;
                 }
             });
@@ -73,22 +112,21 @@
         handleFileInput(GrocfileInput, GrocoutputBox);
         handleFileInput(BrownfileInput, BrownoutputBox);
 
-        const groceryStorageKey = 'compost.groceries';
-        const brownStorageKey = 'compost.browns';
-        GrocoutputBox.value = sessionStorage.getItem(groceryStorageKey) || '';
-        BrownoutputBox.value = sessionStorage.getItem(brownStorageKey) || '';
+        const groceryStorageKey = "compost.groceries";
+        const brownStorageKey = "compost.browns";
+        GrocoutputBox.value = sessionStorage.getItem(groceryStorageKey) || "";
+        BrownoutputBox.value = sessionStorage.getItem(brownStorageKey) || "";
 
-        const form = document.querySelector('form');
-        const loadingState = document.getElementById('loading-state');
-        const submitButton = form.querySelector('button[type="submit"]');
+        const form = document.querySelector("form");
+        const loadingState = document.getElementById("loading-state");
+        const submitButton = form.querySelector("button[type='submit']");
 
-        // Will require you to define /analyze in app.py so the form can have time to load
-        form.addEventListener('submit', () => {
+        form.addEventListener("submit", () => {
             sessionStorage.setItem(groceryStorageKey, GrocoutputBox.value);
             sessionStorage.setItem(brownStorageKey, BrownoutputBox.value);
             loadingState.hidden = false;
             submitButton.disabled = true;
-            submitButton.textContent = 'Generating...';
+            submitButton.textContent = "Generating...";
         });
     </script>
 
